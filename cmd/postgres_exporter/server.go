@@ -70,7 +70,9 @@ func NewServer(dsn string, opts ...ServerOpt) (*Server, error) {
 	}
 	db.SetMaxOpenConns(1)
 	db.SetMaxIdleConns(1)
-
+        // add MaxLifetime to release connections on db
+	db.SetConnMaxLifetime(60 * time.Second)
+	
 	level.Info(logger).Log("msg", "Established new database connection", "fingerprint", fingerprint)
 
 	s := &Server{
