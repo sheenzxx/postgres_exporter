@@ -147,7 +147,8 @@ func NewPostgresCollector(logger log.Logger, dsn string, filters []string, optio
 	}
 	db.SetMaxOpenConns(1)
 	db.SetMaxIdleConns(1)
-
+        // add MaxLifetime to release connections on db
+	db.SetConnMaxLifetime(60 * time.Second)
 	p.db = db
 
 	return p, nil
