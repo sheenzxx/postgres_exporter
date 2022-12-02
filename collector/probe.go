@@ -60,7 +60,9 @@ func NewProbeCollector(logger log.Logger, registry *prometheus.Registry, dsn con
 	}
 	db.SetMaxOpenConns(1)
 	db.SetMaxIdleConns(1)
-
+        // add MaxLifetime to release connections on db
+	db.SetConnMaxLifetime(60 * time.Second)
+	
 	return &ProbeCollector{
 		registry:   registry,
 		collectors: collectors,
